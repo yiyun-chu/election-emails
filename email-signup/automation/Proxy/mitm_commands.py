@@ -13,13 +13,14 @@ def encode_to_unicode(msg):
     We can likely inspect the headers for an encoding as well, though it
     won't always be correct.
     """
-    try:
-        msg = unicode(msg, 'utf8')
-    except UnicodeDecodeError:
+    if isinstance(msg, bytes):
         try:
-            msg = unicode(msg, 'ISO-8859-1')
+            msg = msg.decode('utf-8')
         except UnicodeDecodeError:
-            msg = unicode(msg, 'utf8', 'ignore')
+            try:
+                msg = msg.decode('ISO-8859-1')
+            except UnicodeDecodeError:
+                msg = msg.decode('utf-8', 'ignore')
     return msg
 
 

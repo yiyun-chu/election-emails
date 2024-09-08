@@ -79,7 +79,7 @@ def process_query(query, curr, logger):
     args = list(query[1])
     for i in range(len(args)):
         if type(args[i]) == str:
-            args[i] = unicode(args[i], errors='ignore')
+            args[i] = str(args[i]) # unicode(args[i], errors='ignore')
         elif callable(args[i]):
             args[i] = str(args[i])
     try:

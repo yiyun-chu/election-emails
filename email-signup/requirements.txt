@@ -1,5 +1,5 @@
 setuptools
-pyvirtualdisplay
+pyvirtualdisplay==0.2.5
 beautifulsoup4
 pyasn1
 PyOPenSSL

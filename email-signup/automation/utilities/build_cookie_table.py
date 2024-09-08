@@ -1,4 +1,4 @@
-from urlparse import urlparse
+from urllib.parse import urlparse
 from netlib.odict import ODictCaseless
 import sqlite3
 import json
@@ -20,14 +20,16 @@ def encode_to_unicode(string):
     Encode from UTF-8/ISO-8859-1 to unicode.
     Ignore errors if both of these don't work
     """
-    try:
-        encoded = unicode(string, 'UTF-8')
-    except UnicodeDecodeError:
+    if isinstance(string, bytes):  # Only decode if it's a bytes object
         try:
-            encoded = unicode(string, 'ISO-8859-1')
+            encoded = string.decode('UTF-8')
         except UnicodeDecodeError:
-            encoded = unicode(string, 'UTF-8', errors='ignore')
-    return encoded
+            try:
+                encoded = string.decode('ISO-8859-1')
+            except UnicodeDecodeError:
+                encoded = string.decode('UTF-8', errors='ignore')
+        return encoded
+    return string
 
 def select_date_format(date_string):
     """ Try different formats for date and output a standard form accepted by sqlite3 """
@@ -112,7 +114,7 @@ def parse_cookies(cookie_string, verbose, url = None, response_cookie = False):
     queries = list()
     attrs = ()
     try:
-        if type(cookie_string) == unicode:
+        if isinstance(cookie_string, str):
             cookie_string = cookie_string.encode('utf-8')
         cookie = Cookie.BaseCookie(cookie_string) # requires str type
         for key in cookie.keys():
@@ -122,10 +124,10 @@ def parse_cookies(cookie_string, verbose, url = None, response_cookie = False):
                 attrs = parse_cookie_attributes(cookie, key, url)
             query = (name, value)+attrs
             queries.append(query)
-    except Cookie.CookieError, e:
-        if verbose: print "[ERROR] - Malformed cookie string"
-        if verbose: print "--------- " + cookie_string
-        if verbose: print e
+    except Cookie.CookieError as e:
+        if verbose: print("[ERROR] - Malformed cookie string")
+        if verbose: print("--------- " + cookie_string.decode('utf-8'))
+        if verbose: print(e)
         pass
     return queries
 
@@ -183,10 +185,10 @@ def build_http_cookie_table(database, verbose=False):
         if commit % 10000 == 0 and commit != 0 and commit != last_commit:
             last_commit = commit
             con.commit()
-            if verbose: print str(commit) + " Cookies Processed"
+            if verbose: print(str(commit) + " Cookies Processed")
         row = cur1.fetchone()
     con.commit()
-    print "Processing HTTP Request Cookies Complete"
+    print("Processing HTTP Request Cookies Complete")
 
     # Parse http response cookies
     commit = 0
@@ -214,10 +216,10 @@ def build_http_cookie_table(database, verbose=False):
         if commit % 10000 == 0 and commit != 0 and commit != last_commit:
             last_commit = commit
             con.commit()
-            if verbose: print str(commit) + " Cookies Processed"
+            if verbose: print(str(commit) + " Cookies Processed")
         row = cur1.fetchone()
     con.commit()
-    print "Processing HTTP Response Cookies Complete"
+    print("Processing HTTP Response Cookies Complete")
     con.close()
 
 if __name__=='__main__':

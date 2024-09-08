@@ -25,7 +25,7 @@ def get_psl():
 def load_psl(function):
     @wraps(function)
     def wrapper(*args, **kwargs):
-        if not kwargs.has_key('psl'):
+        if not 'psl' in kwargs:
             if wrapper.psl is None:
                 wrapper.psl = get_psl()
             return function(*args, psl=wrapper.psl, **kwargs)
@@ -39,7 +39,7 @@ def is_ip_address(hostname):
     Check if the given string is a valid IP address
     """
     try:
-        ip_address(unicode(hostname))
+        ip_address(str(hostname))
         return True
     except ValueError:
         return False
@@ -54,7 +54,7 @@ def get_ps_plus_1(url, **kwargs):
     An (optional) PublicSuffixList object can be passed with keyword arg 'psl',
     otherwise a version cached in the system temp directory is used.
     """
-    if not kwargs.has_key('psl'):
+    if not 'psl' in kwargs:
         raise ValueError("A PublicSuffixList must be passed as a keyword argument.")
     hostname = urlparse(url).hostname
     if is_ip_address(hostname):
@@ -81,7 +81,7 @@ def hostname_subparts(url, include_ps=False, **kwargs):
     An (optional) PublicSuffixList object can be passed with keyword arg 'psl'.
     otherwise a version cached in the system temp directory is used.
     """
-    if not kwargs.has_key('psl'):
+    if not 'psl' in kwargs:
         raise ValueError("A PublicSuffixList must be passed as a keyword argument.")
     hostname = urlparse(url).hostname
 

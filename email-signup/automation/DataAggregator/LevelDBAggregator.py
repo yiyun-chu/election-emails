@@ -75,7 +75,7 @@ def process_content(content, content_hash, batch, db, counter, logger):
     adds content to the batch
     """
     content = content.encode('utf-8')
-    content_hash = str(content_hash)
+    content_hash = content_hash.encode('utf-8') # str(content_hash)
     if db.get(content_hash) is not None:
         return counter
 

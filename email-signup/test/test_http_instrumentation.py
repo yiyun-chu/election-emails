@@ -233,9 +233,11 @@ class TestPOSTInstrument(OpenWPMTest):
         manager.close()
 
         post_body = self.get_post_request_body_from_db(manager_params['db'])
-        img_file_content = open(img_file_path).read().strip()
-        # DB strings are unicode and seems to use latin-1 encoding
-        img_file_content = unicode(img_file_content, 'latin-1')
+        # img_file_content = open(img_file_path).read().strip()
+        # # DB strings are unicode and seems to use latin-1 encoding
+        # img_file_content = unicode(img_file_content, 'latin-1')
+        with open(img_file_path, 'r', encoding='latin-1') as img_file:
+            img_file_content = img_file.read().strip()
         css_file_content = open(css_file_path).read().strip()
         # POST data is stored as JSON in the DB
         post_body_decoded = json.loads(post_body)

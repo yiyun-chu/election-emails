@@ -60,13 +60,13 @@ class serversocket:
                 msg = self.receive_msg(client, 5)
                 msglen, serialization = struct.unpack('>Lc', msg)
                 if self.verbose:
-                    print("Msglen: " + str(msglen) + " is_serialized: " + str(serialization != 'n'))
+                    print("Msglen: " + str(msglen) + " is_serialized: " + str(serialization != b'n'))
                 msg = self.receive_msg(client, msglen)
-                if serialization != 'n':
+                if serialization != b'n':
                     try:
-                        if serialization == 'd': # dill serialization
+                        if serialization == b'd': # dill serialization
                             msg = dill.loads(msg)
-                        elif serialization == 'j': # json serialization
+                        elif serialization == b'j': # json serialization
                             msg = json.loads(msg)
                         else:
                             print("Unrecognized serialization type: %s" % serialization)

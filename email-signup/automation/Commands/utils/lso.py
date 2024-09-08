@@ -49,13 +49,13 @@ def parse_flash_cookies(lso_file):
         flash_cookie.local_path = lso_file.split("#SharedObjects/")[1]
         flash_cookie.filename = os.path.basename(lso_file)
         flash_cookie.domain = lso_file.split("#SharedObjects/")[1].split("/")[1]
-        flash_cookie.key = unicode(k)
+        flash_cookie.key = str(k)
         try:
-            flash_cookie.content = unicode(v)
+            flash_cookie.content = str(v)
         except UnicodeDecodeError:
             # obj is byte string
             ascii_text = str(v).encode('string_escape')
-            flash_cookie.content = unicode(ascii_text)
+            flash_cookie.content = str(ascii_text)
 
         flash_cookies.append(flash_cookie)
     return flash_cookies

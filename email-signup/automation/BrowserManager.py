@@ -244,6 +244,7 @@ def BrowserManager(command_queue, status_queue, browser_params, manager_params, 
     to the TaskManager.
     """
     try:
+
         logger = loggingclient(*manager_params['logger_address'])
 
         # Start the proxy

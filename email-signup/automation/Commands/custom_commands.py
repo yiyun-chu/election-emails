@@ -348,6 +348,10 @@ def _find_and_fill_form(webdriver, user_data, visit_id, debug, browser_params, m
     email = user_data['email']
     user_info = user_data
     _form_fill_and_submit(newsletter_form, user_info, webdriver, True, browser_params, manager_params, debug_form_pre_initial if debug else None)
+    #take a screenshot after form submission
+    screenshot_name = f'{visit_id}_after_form_submission'
+    save_screenshot(screenshot_name, webdriver, browser_params, manager_params)
+    
     logger.info('Submitted form on [%s] with email [%s] on visit_id [%d]', current_url, email, visit_id)
     time.sleep(_FORM_SUBMIT_SLEEP)
     _dismiss_alert(webdriver)
@@ -775,6 +779,10 @@ def _form_fill_and_submit(form, user_info, webdriver, clear, browser_params, man
             form.submit()  # submit() form
     except:
         pass
+    screenshot_name = f"{screenshot_filename}_after_submission"
+    save_screenshot(screenshot_name, webdriver, browser_params, manager_params)
+
+    # logger.info('Form submitted, screenshot taken: %s', screenshot_name)
 
 def _element_contains_text(element, text):
     """Scans various element attributes for the given text."""
