@@ -7,7 +7,7 @@ python-dateutil
 tld
 multiprocess
 dill
-pyamf
+pyamf # pip install git+https://github.com/hydralabs/pyamf.git
 psutil
 plyvel
 tblib

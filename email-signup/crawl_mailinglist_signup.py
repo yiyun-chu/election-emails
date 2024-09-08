@@ -1,6 +1,6 @@
 from automation import TaskManager, CommandSequence
-from urllib import urlencode
-from urllib2 import Request, urlopen
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 import pandas as pd
 
 # Constants
@@ -8,8 +8,8 @@ NUM_BROWSERS = 1
 output_dir = '~/output_crawl/'
 db_name = 'crawl.sqlite'
 # Site list one of: shopping-500.csv, news-500.csv, top-1m.csv
-site_list = 'data/random-websites.csv'
-
+# site_list = 'data/random-websites.csv'
+site_list = 'test.json' # 'test.csv'
 
 def get_site(site):
     if site.startswith('http://') or site.startswith('https://'):
@@ -35,7 +35,7 @@ def crawl_site(site, manager, user_data):
 manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
 
 # Update browser configuration (use this for per-browser settings)
-for i in xrange(NUM_BROWSERS):
+for i in range(NUM_BROWSERS):
     browser_params[i]['headless'] = True
     browser_params[i]['bot_mitigation'] = True
     browser_params[i]['disable_flash'] = True
@@ -53,11 +53,12 @@ manager_params['database_name'] = db_name
 # Instantiates the measurement platform
 manager = TaskManager.TaskManager(manager_params, browser_params)
 
-data = pd.read_csv(site_list)
+# data = pd.read_csv(site_list)
+data = pd.read_json(site_list)
 
 for index, row in data.iterrows():
     site = get_site(row['final_website'])
-    user_data = dict(eval(row['query_data']))
+    user_data = row['query_data'] # dict(eval(row['query_data']))
     if site is not None and site != '':
         crawl_site(site, manager, user_data)
 

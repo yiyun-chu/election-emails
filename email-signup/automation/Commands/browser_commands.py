@@ -10,9 +10,9 @@ import time
 
 from ..SocketInterface import clientsocket
 from ..MPLogger import loggingclient
-from utils.lso import get_flash_cookies
-from utils.firefox_profile import get_cookies  # todo: add back get_localStorage,
-from utils.webdriver_extensions import scroll_down, wait_until_loaded, get_intra_links
+from .utils.lso import get_flash_cookies
+from .utils.firefox_profile import get_cookies  # todo: add back get_localStorage,
+from .utils.webdriver_extensions import scroll_down, wait_until_loaded, get_intra_links
 
 # Library for core WebDriver-based browser commands
 

@@ -70,3 +70,8 @@ docs/_build/
 # Default output directories
 output_crawl/
 output_visit/
+
+
+# data file
+test.csv
+test.json

@@ -1,6 +1,6 @@
 from ..MPLogger import loggingclient
 from ..Commands.profile_commands import load_profile
-import configure_firefox
+from . import configure_firefox
 
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium import webdriver

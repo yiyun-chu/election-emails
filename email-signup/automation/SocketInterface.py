@@ -1,4 +1,4 @@
-import Queue
+import queue as Queue
 import threading
 import traceback
 import socket
@@ -21,7 +21,7 @@ class serversocket:
         self.verbose = verbose
         self.queue = Queue.Queue()
         if self.verbose:
-            print "Server bound to: " + str(self.sock.getsockname())
+            print("Server bound to: " + str(self.sock.getsockname()))
 
     def start_accepting(self):
         """ Start the listener thread """
@@ -54,13 +54,13 @@ class serversocket:
             'j' : json
         """
         if self.verbose:
-            print "Thread: " + str(threading.current_thread()) + " connected to: " + str(address)
+            print("Thread: " + str(threading.current_thread()) + " connected to: " + str(address))
         try:
             while True:
                 msg = self.receive_msg(client, 5)
                 msglen, serialization = struct.unpack('>Lc', msg)
                 if self.verbose:
-                    print "Msglen: " + str(msglen) + " is_serialized: " + str(serialization != 'n')
+                    print("Msglen: " + str(msglen) + " is_serialized: " + str(serialization != 'n'))
                 msg = self.receive_msg(client, msglen)
                 if serialization != 'n':
                     try:
@@ -69,22 +69,22 @@ class serversocket:
                         elif serialization == 'j': # json serialization
                             msg = json.loads(msg)
                         else:
-                            print "Unrecognized serialization type: %s" % serialization
+                            print("Unrecognized serialization type: %s" % serialization)
                             continue
                     except (UnicodeDecodeError, ValueError) as e:
-                        print "Error de-serializing message: %s \n %s" % (
-                                msg, traceback.format_exc(e))
+                        print("Error de-serializing message: %s \n %s" % (
+                                msg, traceback.format_exc(e)))
                         continue
                 self.queue.put(msg)
         except RuntimeError:
             if self.verbose:
-                print "Client socket: " + str(address) + " closed"
+                print("Client socket: " + str(address) + " closed")
 
     def receive_msg(self, client, msglen):
-        msg = ''
+        msg = b''
         while len(msg) < msglen:
             chunk = client.recv(msglen-len(msg))
-            if chunk == '':
+            if chunk == b'':
                 raise RuntimeError("socket connection broken")
             msg = msg + chunk
         return msg
@@ -107,7 +107,7 @@ class clientsocket:
         self.verbose = verbose
 
     def connect(self, host, port):
-        if self.verbose: print "Connecting to: %s:%i" % (host, port)
+        if self.verbose: print("Connecting to: %s:%i" % (host, port))
         self.sock.connect((host, port))
 
     def send(self, msg):
@@ -120,16 +120,17 @@ class clientsocket:
         if type(msg) is not str:
             if self.serialization == 'dill':
                 msg = dill.dumps(msg)
-                serialization = 'd'
+                serialization = b'd'
             elif self.serialization == 'json':
-                msg = json.dumps(msg)
-                serialization = 'j'
+                msg = json.dumps(msg).encode('utf-8')
+                serialization = b'j'
             else:
-                raise ValueError("Unsupported serialization type set: %s" % serialization)
+                raise ValueError("Unsupported serialization type set: %s" % self.serialization)
         else:
-            serialization = 'n'
+            msg = msg.encode('utf-8')
+            serialization = b'n'
 
-        if self.verbose: print "Sending message with serialization %s" % serialization
+        if self.verbose: print("Sending message with serialization %s" % serialization.decode())
 
         #prepend with message length
         msg = struct.pack('>Lc', len(msg), serialization) + msg

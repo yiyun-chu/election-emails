@@ -1,7 +1,7 @@
 """ Support for logging with the multiprocessing module """
-from SocketInterface import serversocket
+from .SocketInterface import serversocket
 
-from Queue import Empty as EmptyQueue
+from queue import Empty as EmptyQueue
 import logging.handlers
 import logging
 import struct
@@ -148,4 +148,4 @@ if __name__ == '__main__':
     # Close the logging server
     status_queue.put('DIE')
     loggingserver.join()
-    print "Server closed, exiting..."
+    print("Server closed, exiting...")

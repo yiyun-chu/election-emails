@@ -5,12 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import NoSuchElementException
-from urlparse import urljoin
+from urllib.parse import urljoin
 import random
 import time
 
 from ...utilities import domain_utils as du
-import XPathUtil
+from . import XPathUtil
 
 #### Basic functions
 def scroll_down(driver):
@@ -67,7 +67,7 @@ def wait_and_find(driver, locator_type, locator, timeout=3, check_iframes=True):
 
             #If we get here, search also fails in iframes
             driver.switch_to_default_content()
-        raise NoSuchElementException, "Element not found during wait_and_find"
+        raise NoSuchElementException("Element not found during wait_and_find")
 
 def is_found(driver, locator_type, locator, timeout=3):
     try:

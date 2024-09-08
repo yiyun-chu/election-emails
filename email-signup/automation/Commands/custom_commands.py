@@ -3,9 +3,10 @@ from selenium import webdriver as wd
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.common.exceptions import TimeoutException
-from urllib import urlencode
-from urllib2 import Request, urlopen, URLError
-from urlparse import urljoin
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+from urllib.error import URLError
+from urllib.parse import urljoin
 import random
 import time
 import timeit
@@ -14,8 +15,8 @@ import re
 
 from ..MPLogger import loggingclient
 from ..utilities import domain_utils
-from utils.webdriver_extensions import wait_until_loaded
-from browser_commands import get_website, bot_mitigation, save_screenshot, dump_page_source
+from .utils.webdriver_extensions import wait_until_loaded
+from .browser_commands import get_website, bot_mitigation, save_screenshot, dump_page_source
 
 # Link text ranking
 _TYPE_TEXT = 'text'
@@ -125,7 +126,7 @@ def fill_forms(url, user_data, num_links, page_timeout, debug, visit_id,
     # otherwise, scan more pages
     main_handle = webdriver.current_window_handle
     visited_links = set()
-    for i in xrange(num_links):
+    for i in range(num_links):
         # get all links on the page
         links = webdriver.find_elements_by_tag_name('a')
         random.shuffle(links)
@@ -509,7 +510,7 @@ def _find_newsletter_form(container, webdriver, debug, logger):
         # email input field found, check parents for container with a submit button
         try:
             e = input_field
-            for i in xrange(_FORM_CONTAINER_SEARCH_LIMIT):
+            for i in range(_FORM_CONTAINER_SEARCH_LIMIT):
                 e = e.find_element_by_xpath('..')  # get parent
                 if e is None or e.id in visited_containers:
                     continue  # already visited

@@ -1,4 +1,4 @@
-from Errors import CommandExecutionError
+from .Errors import CommandExecutionError
 
 class CommandSequence:
     """A CommandSequence wraps a series of commands to be performed

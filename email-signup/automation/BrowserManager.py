@@ -1,19 +1,19 @@
-from Commands import command_executor
-from DeployBrowsers import deploy_browser
-from Commands import profile_commands
-from Proxy import deploy_mitm_proxy
-from SocketInterface import clientsocket
-from MPLogger import loggingclient
-from Errors import ProfileLoadError, BrowserConfigError, BrowserCrashError
+from .Commands import command_executor
+from .DeployBrowsers import deploy_browser
+from .Commands import profile_commands
+from .Proxy import deploy_mitm_proxy
+from .SocketInterface import clientsocket
+from .MPLogger import loggingclient
+from .Errors import ProfileLoadError, BrowserConfigError, BrowserCrashError
 
 from multiprocess import Process, Queue
-from Queue import Empty as EmptyQueue
+from queue import Empty as EmptyQueue
 from tblib import pickling_support
 pickling_support.install()
 from six import reraise
 import traceback
 import tempfile
-import cPickle
+import pickle as cPickle
 import shutil
 import signal
 import time
@@ -138,7 +138,7 @@ class Browser:
                     error_string += " | %s: %s " % (string, launch_status.get(string, False))
                 self.logger.error("BROWSER %i: Spawn unsuccessful %s" % (self.crawl_id, error_string))
                 self.kill_browser_manager()
-                if launch_status.has_key('Profile Created'):
+                if 'Profile Created' in launch_status:
                     shutil.rmtree(spawned_profile_path, ignore_errors=True)
 
         # If the browser spawned successfully, we should update the

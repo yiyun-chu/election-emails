@@ -1,11 +1,11 @@
 from ..MPLogger import loggingclient
-import MITMProxy
+from . import MITMProxy
 
 from libmproxy import proxy
 from libmproxy.proxy.server import ProxyServer
 import threading
 import socket
-import Queue
+import queue as Queue
 import os
 
 

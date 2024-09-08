@@ -1,9 +1,9 @@
 from ..SocketInterface import clientsocket
 from ..MPLogger import loggingclient
-import mitm_commands
+from . import mitm_commands
 
 from libmproxy import controller
-import Queue
+import queue as Queue
 import sys
 import traceback
 
@@ -73,7 +73,7 @@ class InterceptingMaster (controller.Master):
         try:
             controller.Master.run(self)
         except KeyboardInterrupt:
-            print 'KeyboardInterrupt received. Shutting down'
+            print('KeyboardInterrupt received. Shutting down')
             self.shutdown()
             sys.exit(0)
         except Exception:
