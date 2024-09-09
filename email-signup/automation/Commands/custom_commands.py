@@ -106,7 +106,7 @@ def fill_forms(url, user_data, num_links, page_timeout, debug, visit_id,
     # load the site
     webdriver.set_page_load_timeout(page_timeout)
     get_website(url, 0, visit_id, webdriver, proxy_queue, browser_params, extension_socket)
-
+                          
     # connect to the logger
     logger = loggingclient(*manager_params['logger_address'])
 
@@ -261,7 +261,7 @@ def _find_and_fill_form(webdriver, user_data, visit_id, debug, browser_params, m
     in_iframe = False
 
     if debug: logger.debug('The current URL is %s' % current_url)
-
+        
     # debug: save before/after screenshots and page source
     debug_file_prefix = str(visit_id) + '_'
     debug_form_pre_initial = debug_file_prefix + 'form_initial_presubmit'

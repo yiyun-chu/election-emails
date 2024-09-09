@@ -79,6 +79,10 @@ class serversocket:
         except RuntimeError:
             if self.verbose:
                 print("Client socket: " + str(address) + " closed")
+                
+        except Exception as e:
+        # Handle any unexpected exceptions
+            print(f"Unexpected error: {e}\n{traceback.format_exc()}")        
 
     def receive_msg(self, client, msglen):
         msg = b''

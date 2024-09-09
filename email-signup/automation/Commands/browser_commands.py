@@ -232,4 +232,4 @@ def save_screenshot(screenshot_name, webdriver, browser_params, manager_params):
 
 def dump_page_source(dump_name, webdriver, browser_params, manager_params):
     with open(os.path.join(manager_params['source_dump_path'], dump_name + '.html'), 'wb') as f:
-        f.write(webdriver.page_source.encode('utf8') + '\n')
+        f.write(webdriver.page_source.encode('utf8') + b'\n')

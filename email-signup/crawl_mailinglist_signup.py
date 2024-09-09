@@ -9,7 +9,7 @@ output_dir = '~/output_crawl/'
 db_name = 'crawl.sqlite'
 # Site list one of: shopping-500.csv, news-500.csv, top-1m.csv
 # site_list = 'data/random-websites.csv'
-site_list = 'test_TX.json'#'test_NY.json' # 'test.csv'
+site_list = 'test_1.json' #'test.json' #'test_TX.json' # 'test_NY.csv'
 
 def get_site(site):
     if site.startswith('http://') or site.startswith('https://'):
