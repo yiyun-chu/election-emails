@@ -73,5 +73,5 @@ output_visit/
 
 
 # data file
-test.csv
-test.json
+test*.csv
+test*.json
