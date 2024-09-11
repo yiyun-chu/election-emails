@@ -1,7 +1,7 @@
 {
     "extension_enabled": true,
     "disable_webdriver_self_id": true,
-    "cookie_instrument": false,
+    "cookie_instrument": true,
     "js_instrument": false,
     "cp_instrument": false,
     "http_instrument": false,
@@ -11,7 +11,7 @@
     "bot_mitigation": false,
     "disable_flash": true,
     "profile_tar": null,
-    "profile_archive_dir": null,
+    "profile_archive_dir": "default_firfox_release.tar.gz",
     "headless": false,
     "browser": "firefox",
 
